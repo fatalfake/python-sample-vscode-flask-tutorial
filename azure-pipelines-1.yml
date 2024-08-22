@@ -1,0 +1,32 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+variables:
+  mySimpleVar: simple var value
+  "my.dotted.var": dotted var value
+  "my var with spaces": var with spaces value
+
+steps:
+- script: echo Input macro = $(mySimpleVar). Env var = %MYSIMPLEVAR%
+  condition: eq(variables['agent.os'], 'Windows_NT')
+- script: echo Input macro = $(mySimpleVar). Env var = $MYSIMPLEVAR
+  condition: in(variables['agent.os'], 'Darwin', 'Linux')
+- bash: echo Input macro = $(my.dotted.var). Env var = $MY_DOTTED_VAR
+- powershell: Write-Host "Input macro = $(my var with spaces). Env var = $env:MY_VAR_WITH_SPACES"
